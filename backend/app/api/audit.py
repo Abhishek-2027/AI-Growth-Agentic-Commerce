@@ -22,4 +22,5 @@ async def get_order_audit(order_id: str):
 async def get_all_audits(limit: int = 100):
     """Return most recent audit events across all sessions."""
     events = await audit_service.get_all_recent_audits(limit=limit)
-    return {"events": events, "count": len(events)}
+    total_count = await audit_service.get_total_audit_count()
+    return {"events": events, "count": total_count}

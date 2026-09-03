@@ -258,11 +258,6 @@ export default function AgentChat() {
                   The AI has proposed a purchase. You must explicitly approve before any payment is created.
                 </p>
                 <div className="space-y-1.5 mb-6">
-                  {['AI decided what to propose', 'Policy validated the proposal', 'Your approval controls the money', 'Backend will verify the payment'].map((t) => (
-                    <p key={t} className="text-xs text-emerald-300 flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />{t}
-                    </p>
-                  ))}
                 </div>
               </div>
               <button

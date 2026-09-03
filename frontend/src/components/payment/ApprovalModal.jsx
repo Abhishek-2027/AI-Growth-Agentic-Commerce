@@ -229,9 +229,6 @@ export default function ApprovalModal({ proposal, sessionId, onApproved, onRejec
             )}
           </button>
         </div>
-        <p className="text-xs text-slate-600 text-center mt-3">
-          Payment processed by Razorpay Test Mode • Secret never leaves backend
-        </p>
       </div>
     </div>
   )

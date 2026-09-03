@@ -65,3 +65,8 @@ async def get_all_recent_audits(limit: int = 100):
         doc["_id"] = str(doc["_id"])
         events.append(doc)
     return events
+
+async def get_total_audit_count() -> int:
+    """Return total number of audit events in the database."""
+    col = get_collection("audit_logs")
+    return await col.count_documents({})
