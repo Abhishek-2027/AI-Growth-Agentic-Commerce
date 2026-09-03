@@ -44,7 +44,7 @@ export default function AgentChat() {
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
-  const [sessionId, setSessionId] = useState(null)
+  const [sessionId, setSessionId] = useState(() => localStorage.getItem('agent_session_id') || null)
   const [agentResult, setAgentResult] = useState(null)
   const [showApproval, setShowApproval] = useState(false)
   const [auditEvents, setAuditEvents] = useState([])
@@ -79,7 +79,10 @@ export default function AgentChat() {
 
     try {
       const result = await sendMessage(msg, sessionId)
-      setSessionId(result.session_id)
+      if (result.session_id) {
+        setSessionId(result.session_id)
+        localStorage.setItem('agent_session_id', result.session_id)
+      }
 
       // Remove thinking message
       setMessages((m) => m.filter((x) => x.id !== 'thinking'))
@@ -102,6 +105,11 @@ export default function AgentChat() {
         if (selected) {
           reply = `I found a great match: **${selected.name}** at ₹${selected.price?.toLocaleString('en-IN')}.`
           if (result.recommendation_reason) reply += ` ${result.recommendation_reason}`
+          
+          if (result.products && result.products.length > 1) {
+            reply += `\n\nI've also found ${result.products.length - 1} other choices. You can check them below and let me know if you prefer one of those!`
+          }
+
           if (policy?.approved) {
             reply += '\n\n✅ All safety checks passed. You can review and approve the payment below.'
           } else if (policy?.blocked_reasons?.length) {

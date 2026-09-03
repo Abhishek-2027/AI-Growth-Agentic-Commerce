@@ -6,13 +6,26 @@ const CATEGORY_ICONS = {
   default: '📦',
 }
 
+import { logInteraction } from '../../api/recommendationApi';
+import { v4 as uuidv4 } from 'uuid';
+
 export default function ProductCard({ product, isSelected, onSelect }) {
   const icon = CATEGORY_ICONS[product.category?.toLowerCase()] || CATEGORY_ICONS.default
   const inStock = product.stock > 0
 
+  const handleSelect = (p) => {
+    let sid = localStorage.getItem('agent_session_id');
+    if (!sid) {
+      sid = uuidv4();
+      localStorage.setItem('agent_session_id', sid);
+    }
+    logInteraction('PRODUCT_CLICK', p._id, null, sid);
+    onSelect?.(p);
+  };
+
   return (
     <div
-      onClick={() => onSelect?.(product)}
+      onClick={() => handleSelect(product)}
       className={`glass-card p-5 cursor-pointer transition-all duration-200 hover:border-brand-500/40 hover:shadow-lg hover:shadow-brand-500/10 hover:-translate-y-0.5 animate-fade-in
         ${isSelected ? 'border-brand-500/60 bg-brand-500/10 shadow-lg shadow-brand-500/20' : ''}`}
     >
@@ -66,7 +79,7 @@ export default function ProductCard({ product, isSelected, onSelect }) {
         {onSelect && (
           <div className="pt-2">
             <button 
-              onClick={(e) => { e.stopPropagation(); onSelect(product); }}
+              onClick={(e) => { e.stopPropagation(); handleSelect(product); }}
               className="w-full bg-brand-500/20 hover:bg-brand-500 text-brand-300 hover:text-white border border-brand-500/30 text-xs font-semibold py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <span>🤖</span> Buy with AI Agent

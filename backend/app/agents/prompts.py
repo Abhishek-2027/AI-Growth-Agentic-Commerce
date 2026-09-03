@@ -42,6 +42,9 @@ User requirements:
 - Budget: ₹{budget}
 - Required features: {features}
 
+User Historical Preferences (Use this to explain WHY something is a good fit):
+{user_preferences}
+
 Available products:
 {products_json}
 
@@ -49,7 +52,8 @@ Select the single best product that:
 1. Matches the query
 2. Has the required features
 3. Is within budget
-4. Has good availability
+4. Prefer items with `stock` > 0. HOWEVER, if the user explicitly asks for a specific product by name, you MUST select that exact product even if it has 0 stock (so the policy engine can correctly block it and inform the user).
+5. (Optional but preferred) Matches their historical preferences
 
 Respond with a JSON object:
 {{

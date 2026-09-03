@@ -232,11 +232,11 @@ async def node_search_catalog(state: AgentState) -> AgentState:
                 query=intent.get("product_query", ""),
                 category=intent.get("category"),
                 required_features=intent.get("required_features", []),
-                limit=1,
+                limit=50,
             )
             if budget_free_products:
-                min_found_price = budget_free_products[0].get("price", 0)
-                error_msg = f"I couldn't find '{intent.get('product_query', 'that')}' or any alternatives under ₹{intent.get('max_budget')}. However, I did find options starting at ₹{min_found_price:,}. Would you like to increase your budget?"
+                min_found_price = min(p.get("price", float('inf')) for p in budget_free_products)
+                error_msg = f"I couldn't find '{intent.get('product_query', 'that')}' or any alternatives under ₹{intent.get('max_budget')}. However, I did find options starting at ₹{min_found_price:,.0f}. Would you like to increase your budget?"
                 return {**state, "products": [], "error": error_msg, "step": "NO_PRODUCTS"}
                 
         # 2. Were required features the issue?
@@ -262,6 +262,17 @@ async def node_search_catalog(state: AgentState) -> AgentState:
             "error": error_msg,
             "step": "NO_PRODUCTS",
         }
+
+    # Apply personalization ranking if there are products
+    if products:
+        from app.services.preference_service import get_user_preferences
+        from app.services.recommendation_ranker import score_for_recommended
+        prefs = await get_user_preferences(state["session_id"])
+        if prefs:
+            for p in products:
+                # 0.5 default intent match for text search results + personalization score
+                p["_ranking_score"] = score_for_recommended(p, prefs) + 0.5
+            products.sort(key=lambda x: x.get("_ranking_score", 0), reverse=True)
 
     return {**state, "products": products, "step": "ANALYZE_PRODUCTS"}
 
@@ -294,12 +305,22 @@ async def node_analyze_and_select(state: AgentState) -> AgentState:
             for p in products
         ]
 
+        from app.services.preference_service import get_user_preferences
+        prefs = await get_user_preferences(state["session_id"])
+        prefs_summary = "No history available."
+        if prefs:
+            prefs_summary = json.dumps({
+                "preferred_categories": prefs.get("preferred_categories", []),
+                "preferred_features": prefs.get("preferred_features", []),
+            }, indent=2)
+
         llm = _get_llm()
         prompt = PRODUCT_ANALYSIS_PROMPT.format(
             query=intent.get("product_query", ""),
             budget=intent.get("max_budget", "Not specified"),
             features=", ".join(intent.get("required_features", [])),
             products_json=json.dumps(products_summary, indent=2),
+            user_preferences=prefs_summary
         )
 
         response = await llm.ainvoke(prompt)

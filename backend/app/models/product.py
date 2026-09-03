@@ -15,6 +15,7 @@ class ProductBase(BaseModel):
     image_url: Optional[str] = None
     brand: Optional[str] = None
     rating: Optional[float] = None
+    complementary_categories: Optional[List[str]] = []
 
 
 class ProductCreate(ProductBase):

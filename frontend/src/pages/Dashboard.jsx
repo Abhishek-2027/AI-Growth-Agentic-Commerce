@@ -3,6 +3,8 @@ import Header from '../components/layout/Header'
 import { getProducts } from '../api/productApi'
 import { getOrders } from '../api/orderApi'
 import { getAllAudits } from '../api/auditApi'
+import PersonalizedRecommendations from '../components/recommendations/PersonalizedRecommendations'
+import { useNavigate } from 'react-router-dom'
 
 function StatCard({ icon, label, value, sub, color = 'brand' }) {
   return (
@@ -29,7 +31,9 @@ const PRINCIPLES = [
 ]
 
 export default function Dashboard() {
+  const navigate = useNavigate()
   const [stats, setStats] = useState({ products: 0, orders: 0, completed: 0, events: 0 })
+  const [recommendations, setRecommendations] = useState(null)
 
   useEffect(() => {
     Promise.all([getProducts(100), getOrders(), getAllAudits(200)]).then(
@@ -40,6 +44,19 @@ export default function Dashboard() {
         events: a.count || 0,
       })
     ).catch(() => {})
+
+    import('../api/recommendationApi').then(({ getDashboardRecommendations }) => {
+      let sid = localStorage.getItem('agent_session_id')
+      if (!sid) {
+        import('uuid').then(({ v4 }) => {
+          sid = v4()
+          localStorage.setItem('agent_session_id', sid)
+          getDashboardRecommendations(sid).then(setRecommendations)
+        })
+      } else {
+        getDashboardRecommendations(sid).then(setRecommendations)
+      }
+    }).catch(console.error)
   }, [])
 
   return (
@@ -93,6 +110,29 @@ export default function Dashboard() {
             </span>
           ))}
         </div>
+      </div>
+      {/* Recommendations */}
+      <div className="space-y-8 mt-8 pb-8">
+        <PersonalizedRecommendations
+          products={recommendations?.recommended_for_you}
+          title="Recommended For You"
+          subtitle="Based on your recent activity and preferences"
+          onSelectProduct={(p) => navigate('/agent')}
+        />
+        
+        <PersonalizedRecommendations
+          products={recommendations?.recent_activity}
+          title="Based on Your Recent Activity"
+          subtitle="Similar to what you've viewed recently"
+          onSelectProduct={(p) => navigate('/agent')}
+        />
+
+        <PersonalizedRecommendations
+          products={recommendations?.complements_purchases}
+          title="Complements Your Recent Purchases"
+          subtitle="Frequently bought together"
+          onSelectProduct={(p) => navigate('/agent')}
+        />
       </div>
     </div>
   )

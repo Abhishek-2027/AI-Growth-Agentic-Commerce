@@ -4,7 +4,7 @@ from contextlib import asynccontextmanager
 
 from app.core.config import settings
 from app.db.mongodb import connect_db, close_db
-from app.api import agent, products, orders, orders_list, payments, audit
+from app.api import agent, products, orders, orders_list, payments, audit, interactions, recommendations
 
 
 @asynccontextmanager
@@ -40,6 +40,8 @@ app.include_router(orders.router)      # purchase proposal routes
 app.include_router(orders_list.router) # order list routes
 app.include_router(payments.router)
 app.include_router(audit.router)
+app.include_router(interactions.router)
+app.include_router(recommendations.router)
 
 
 @app.get("/")

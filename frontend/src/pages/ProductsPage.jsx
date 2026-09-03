@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import Header from '../components/layout/Header'
 import ProductList from '../components/products/ProductList'
 import { getProducts, searchProducts } from '../api/productApi'
+import { logInteraction } from '../api/recommendationApi'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([])
@@ -17,6 +19,12 @@ export default function ProductsPage() {
       if (query || maxPrice) {
         const data = await searchProducts({ query, max_price: maxPrice ? parseFloat(maxPrice) : undefined, limit: 50 })
         setProducts(data.products || [])
+        // Log search interaction
+        let sid = localStorage.getItem('agent_session_id');
+        if (!sid) { sid = uuidv4(); localStorage.setItem('agent_session_id', sid); }
+        if (query) {
+          logInteraction('PRODUCT_SEARCH', null, query, sid);
+        }
       } else {
         const data = await getProducts(50)
         setProducts(data.products || [])

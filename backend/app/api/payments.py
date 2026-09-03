@@ -69,6 +69,15 @@ async def verify_payment(req: VerifyPaymentRequest):
         # Get order for session_id
         order = await order_service.get_order(req.order_id)
         session_id = order.get("session_id", "") if order else ""
+        
+        # Log successful purchase interaction for personalization engine
+        if order and session_id and order.get("product_id"):
+            from app.services.interaction_service import record_interaction
+            await record_interaction(
+                user_id=session_id,
+                event_type="PRODUCT_PURCHASED",
+                product_id=order["product_id"]
+            )
 
         await audit_service.log_event(
             session_id=session_id,
