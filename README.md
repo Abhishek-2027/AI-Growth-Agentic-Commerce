@@ -24,28 +24,57 @@ To prevent AI hallucinations from causing financial harm, AgentCart surrounds th
 The AI Agent operates using a state graph (LangGraph) pipeline. The LLM never touches actual payment logic directly.
 
 ```mermaid
-graph TD
-    A([User Input]) --> B{Input Guardrail}
-    B -- Block --> B1([Reject Prompt])
-    B -- Pass --> C[Intent Extraction LLM]
-    C --> D{Intent Guardrail}
-    D -- Block --> D1([Reject Malformed Intent])
-    D -- Pass --> E[Semantic Search MongoDB]
-    E --> F[Inject Personalization Scores]
-    F --> G[Analyze & Select Product LLM]
-    G --> H{Policy Engine}
-    H -- Reject --> H1([Block Transaction])
-    H -- Pass --> I([Await User Approval])
-    I -- Approve --> J[Create Razorpay Order]
-    J --> K[Frontend Checkout]
-    K --> L[Backend HMAC Verification]
-    L --> M([Order Complete])
+stateDiagram-v2
+    [*] --> guardrail_input: User Input
 
-    classDef llm fill:#f3e8ff,stroke:#9333ea,stroke-width:2px;
-    classDef secure fill:#dcfce7,stroke:#16a34a,stroke-width:2px;
+    state guardrail_input {
+        direction LR
+        Valid --> extract_intent
+        Invalid --> GUARDRAIL_BLOCKED
+    }
+
+    guardrail_input --> extract_intent: Continue
+    guardrail_input --> [*]: End (Blocked)
+
+    extract_intent --> search_catalog: Continue
+    extract_intent --> [*]: End (Error)
+
+    state search_catalog {
+        direction LR
+        Found --> analyze_and_select
+        Zero_Results --> NO_PRODUCTS
+    }
     
-    class C,G llm;
-    class B,D,H,L secure;
+    search_catalog --> analyze_and_select: Continue
+    search_catalog --> [*]: End (No Products / Ask to expand budget)
+
+    analyze_and_select --> create_proposal: Continue
+    analyze_and_select --> [*]: End (Error)
+
+    state create_proposal {
+        direction LR
+        Policy_Pass --> AWAITING_APPROVAL
+        Policy_Fail --> POLICY_BLOCKED
+    }
+    
+    create_proposal --> HumanApproval: AWAITING_APPROVAL (End Graph)
+    create_proposal --> [*]: POLICY_BLOCKED (End Graph)
+
+    state HumanApproval {
+        direction LR
+        Approve --> RazorpayCheckout
+        Reject --> NewChat
+    }
+
+    HumanApproval --> RazorpayCheckout: User clicks Approve
+    RazorpayCheckout --> PaymentSuccess: Valid HMAC
+    RazorpayCheckout --> PaymentFailed: Invalid / Cancelled
+    
+    PaymentFailed --> [*]: User can try again (New Graph Invocation)
+    PaymentSuccess --> [*]: Order Complete
+
+    note right of search_catalog: Injects Personalization Scores
+    note right of create_proposal: Deterministic Policy Engine (Price/Stock)
 ```
 
 ### 1. Guardrails & Safety First
