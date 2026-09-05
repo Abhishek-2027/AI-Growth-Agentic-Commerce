@@ -4,10 +4,10 @@ export default function PersonalizedRecommendations({ products, title, subtitle,
   if (!products) {
     return (
       <div className="animate-pulse space-y-4">
-        <div className="h-6 w-1/4 bg-white/10 rounded"></div>
+        <div className="h-6 w-1/4 bg-slate-200 rounded"></div>
         <div className="flex gap-4 overflow-hidden">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className="flex-shrink-0 w-64 h-64 bg-white/5 rounded-xl"></div>
+            <div key={i} className="flex-shrink-0 w-64 h-64 bg-slate-100 rounded-xl"></div>
           ))}
         </div>
       </div>
@@ -21,8 +21,8 @@ export default function PersonalizedRecommendations({ products, title, subtitle,
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-xl font-bold text-white">{title}</h2>
-        {subtitle && <p className="text-sm text-slate-400">{subtitle}</p>}
+        <h2 className="text-xl font-bold text-slate-900">{title}</h2>
+        {subtitle && <p className="text-sm text-slate-500">{subtitle}</p>}
       </div>
       
       <div className="flex overflow-x-auto gap-4 pb-4 snap-x hide-scrollbar">

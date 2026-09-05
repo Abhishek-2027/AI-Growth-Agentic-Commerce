@@ -31,7 +31,7 @@ export default function AuditPage() {
         <p className="text-slate-400 text-sm">{events.length} events recorded</p>
         <div className="flex gap-2">
           <button
-            className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${autoRefresh ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-400' : 'glass-card text-slate-400'}`}
+            className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${autoRefresh ? 'bg-emerald-50 border-emerald-200 text-emerald-700' : 'glass-card text-slate-600'}`}
             onClick={() => setAutoRefresh((p) => !p)}
           >
             {autoRefresh ? '⏸ Auto Refresh On' : '▶ Auto Refresh'}
@@ -42,7 +42,7 @@ export default function AuditPage() {
 
       {/* Legend */}
       <div className="glass-card p-4 mb-6">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Actor Legend</p>
+        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3">Actor Legend</p>
         <div className="flex flex-wrap gap-4">
           {[
             { label: '🤖 Agent', desc: 'LangGraph AI decisions' },

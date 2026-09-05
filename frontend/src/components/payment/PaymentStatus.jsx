@@ -18,27 +18,27 @@ export default function PaymentStatus({ order }) {
   return (
     <div className="glass-card p-5 animate-fade-in">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-white">Payment Status</h3>
+        <h3 className="font-semibold text-slate-900">Payment Status</h3>
         <span className={cfg.color}>{cfg.icon} {cfg.label}</span>
       </div>
       <div className="space-y-2 text-sm">
         <div className="flex justify-between">
-          <span className="text-slate-400">Product</span>
-          <span className="text-white font-medium">{order.product_name}</span>
+          <span className="text-slate-500">Product</span>
+          <span className="text-slate-900 font-medium">{order.product_name}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-slate-400">Amount</span>
-          <span className="text-white font-bold">₹{order.amount?.toLocaleString('en-IN')}</span>
+          <span className="text-slate-500">Amount</span>
+          <span className="text-slate-900 font-bold">₹{order.amount?.toLocaleString('en-IN')}</span>
         </div>
         {order.razorpay_payment_id && (
           <div className="flex justify-between">
-            <span className="text-slate-400">Payment ID</span>
-            <span className="text-emerald-400 text-xs font-mono">{order.razorpay_payment_id}</span>
+            <span className="text-slate-500">Payment ID</span>
+            <span className="text-emerald-600 text-xs font-mono">{order.razorpay_payment_id}</span>
           </div>
         )}
         <div className="flex justify-between">
-          <span className="text-slate-400">Order ID</span>
-          <span className="text-slate-300 text-xs font-mono">{order._id?.slice(-8)}</span>
+          <span className="text-slate-500">Order ID</span>
+          <span className="text-slate-700 text-xs font-mono">{order._id?.slice(-8)}</span>
         </div>
       </div>
     </div>

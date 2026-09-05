@@ -111,11 +111,11 @@ export default function ApprovalModal({ proposal, sessionId, onApproved, onRejec
   // Payment result screens
   if (paymentStatus === 'success') {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4 animate-fade-in">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm px-4 animate-fade-in">
         <div className="glass-card w-full max-w-md p-8 text-center animate-slide-up">
           <div className="text-6xl mb-4">🎉</div>
-          <h2 className="text-2xl font-bold text-emerald-400 mb-2">Payment Successful!</h2>
-          <p className="text-slate-400 mb-2">Your order has been placed and verified by the backend.</p>
+          <h2 className="text-2xl font-bold text-emerald-600 mb-2">Payment Successful!</h2>
+          <p className="text-slate-600 mb-2">Your order has been placed and verified by the backend.</p>
           <p className="text-xs text-slate-500 mb-6">Order ID: {orderId}</p>
           <button className="btn-success w-full" onClick={onClose}>View Audit Trail</button>
         </div>
@@ -125,17 +125,17 @@ export default function ApprovalModal({ proposal, sessionId, onApproved, onRejec
 
   if (paymentStatus === 'failed' || paymentStatus === 'cancelled') {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4 animate-fade-in">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm px-4 animate-fade-in">
         <div className="glass-card w-full max-w-md p-8 animate-slide-up">
           <div className="text-center mb-6">
             <div className="text-5xl mb-4">❌</div>
-            <h2 className="text-xl font-bold text-red-400 mb-2">
+            <h2 className="text-xl font-bold text-red-600 mb-2">
               {paymentStatus === 'cancelled' ? 'Payment Cancelled' : 'Payment Failed'}
             </h2>
-            <p className="text-slate-400 text-sm mb-2">
+            <p className="text-slate-600 text-sm mb-2">
               The order was <strong>not completed</strong>. No duplicate payment was created.
             </p>
-            {error && <p className="text-red-400 text-xs p-3 bg-red-500/10 rounded-lg border border-red-500/20">{error}</p>}
+            {error && <p className="text-red-600 text-xs p-3 bg-red-50 rounded-lg border border-red-200">{error}</p>}
           </div>
           <div className="space-y-3">
             <button className="btn-primary w-full" onClick={handleRetry} disabled={loading}>
@@ -150,23 +150,23 @@ export default function ApprovalModal({ proposal, sessionId, onApproved, onRejec
 
   // Main approval modal
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4 animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm px-4 animate-fade-in">
       <div className="glass-card w-full max-w-md p-7 animate-slide-up">
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center text-xl">💳</div>
+          <div className="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center text-xl">💳</div>
           <div>
-            <h2 className="text-lg font-bold text-white">Payment Approval Required</h2>
-            <p className="text-xs text-slate-400">Review and confirm your purchase</p>
+            <h2 className="text-lg font-bold text-slate-900">Payment Approval Required</h2>
+            <p className="text-xs text-slate-500">Review and confirm your purchase</p>
           </div>
         </div>
 
         {/* Product info */}
-        <div className="bg-white/5 rounded-xl p-4 mb-4 border border-white/10">
+        <div className="bg-slate-100 rounded-xl p-4 mb-4 border border-slate-200">
           <p className="text-xs text-slate-500 mb-1">Product</p>
-          <p className="font-semibold text-white">{proposal.product_name}</p>
+          <p className="font-semibold text-slate-900">{proposal.product_name}</p>
           <div className="flex items-center justify-between mt-2">
-            <span className="text-2xl font-bold text-white">₹{proposal.expected_amount?.toLocaleString('en-IN')}</span>
+            <span className="text-2xl font-bold text-slate-900">₹{proposal.expected_amount?.toLocaleString('en-IN')}</span>
             <span className="badge-info">×{proposal.quantity}</span>
           </div>
         </div>
@@ -175,34 +175,34 @@ export default function ApprovalModal({ proposal, sessionId, onApproved, onRejec
         {proposal.reason && (
           <div className="mb-4">
             <p className="text-xs text-slate-500 mb-1">Why this product</p>
-            <p className="text-sm text-slate-300">{proposal.reason}</p>
+            <p className="text-sm text-slate-600">{proposal.reason}</p>
           </div>
         )}
 
         {/* Safety checks */}
         <div className="mb-6">
-          <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Safety Checks</p>
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Safety Checks</p>
           {policyPassed ? (
             <div className="space-y-1.5">
               {['Budget validated', 'Stock confirmed', 'Policy approved', 'Approval required'].map((c) => (
-                <div key={c} className="flex items-center gap-2 text-sm text-emerald-300">
+                <div key={c} className="flex items-center gap-2 text-sm text-emerald-600">
                   <span>✓</span><span>{c}</span>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-              <p className="text-sm text-red-400 font-semibold">Policy Check Failed</p>
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-600 font-semibold">Policy Check Failed</p>
               {policy.blocked_reasons?.map((r, i) => (
-                <p key={i} className="text-xs text-red-300 mt-1">• {r}</p>
+                <p key={i} className="text-xs text-red-600 mt-1">• {r}</p>
               ))}
             </div>
           )}
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-            <p className="text-xs text-red-400">{error}</p>
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-xs text-red-600">{error}</p>
           </div>
         )}
 

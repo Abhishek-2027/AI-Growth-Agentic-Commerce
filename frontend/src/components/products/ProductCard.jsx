@@ -26,20 +26,20 @@ export default function ProductCard({ product, isSelected, onSelect }) {
   return (
     <div
       onClick={() => handleSelect(product)}
-      className={`glass-card p-5 cursor-pointer transition-all duration-200 hover:border-brand-500/40 hover:shadow-lg hover:shadow-brand-500/10 hover:-translate-y-0.5 animate-fade-in
-        ${isSelected ? 'border-brand-500/60 bg-brand-500/10 shadow-lg shadow-brand-500/20' : ''}`}
+      className={`glass-card p-5 cursor-pointer transition-all duration-200 hover:border-brand-300 hover:shadow-lg hover:-translate-y-0.5 animate-fade-in
+        ${isSelected ? 'border-brand-400 bg-brand-50 shadow-lg' : ''}`}
     >
       {/* Product icon/image area */}
-      <div className="w-full h-28 rounded-xl bg-gradient-to-br from-brand-900/50 to-dark-900 flex items-center justify-center mb-4 text-5xl border border-white/5">
+      <div className="w-full h-28 rounded-xl bg-gradient-to-br from-brand-50 to-brand-100 flex items-center justify-center mb-4 text-5xl border border-brand-200 shadow-inner">
         {icon}
       </div>
 
       {/* Info */}
       <div className="space-y-2">
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold text-white text-sm leading-tight line-clamp-2">{product.name}</h3>
+          <h3 className="font-semibold text-slate-900 text-sm leading-tight line-clamp-2">{product.name}</h3>
           {isSelected && (
-            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-brand-500 flex items-center justify-center text-xs">✓</span>
+            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-brand-500 text-white flex items-center justify-center text-xs">✓</span>
           )}
         </div>
 
@@ -48,7 +48,7 @@ export default function ProductCard({ product, isSelected, onSelect }) {
         )}
 
         <div className="flex items-center justify-between">
-          <span className="text-lg font-bold text-white">₹{product.price?.toLocaleString('en-IN')}</span>
+          <span className="text-lg font-bold text-slate-900">₹{product.price?.toLocaleString('en-IN')}</span>
           <span className={inStock ? 'badge-success' : 'badge-error'}>
             {inStock ? `${product.stock} in stock` : 'Out of stock'}
           </span>
@@ -58,7 +58,7 @@ export default function ProductCard({ product, isSelected, onSelect }) {
         {product.features?.length > 0 && (
           <div className="flex flex-wrap gap-1 pt-1">
             {product.features.slice(0, 3).map((f) => (
-              <span key={f} className="text-xs bg-white/5 border border-white/10 text-slate-400 px-2 py-0.5 rounded-full capitalize">
+              <span key={f} className="text-xs bg-slate-100 border border-slate-200 text-slate-600 px-2 py-0.5 rounded-full capitalize">
                 {f}
               </span>
             ))}
@@ -80,7 +80,7 @@ export default function ProductCard({ product, isSelected, onSelect }) {
           <div className="pt-2">
             <button 
               onClick={(e) => { e.stopPropagation(); handleSelect(product); }}
-              className="w-full bg-brand-500/20 hover:bg-brand-500 text-brand-300 hover:text-white border border-brand-500/30 text-xs font-semibold py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
+              className="w-full bg-brand-50 hover:bg-brand-600 text-brand-700 hover:text-white border border-brand-200 text-xs font-semibold py-2 rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <span>🤖</span> Buy with AI Agent
             </button>

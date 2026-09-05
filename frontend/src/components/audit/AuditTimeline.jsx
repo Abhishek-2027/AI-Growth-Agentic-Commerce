@@ -1,24 +1,24 @@
 const EVENT_CONFIG = {
-  USER_REQUEST_RECEIVED:    { icon: '💬', color: 'text-brand-400', bg: 'bg-brand-500/10 border-brand-500/20' },
-  GUARDRAIL_INPUT_CHECK:    { icon: '🛡️', color: 'text-slate-400', bg: 'bg-slate-500/10 border-slate-500/20' },
-  GUARDRAIL_INPUT_BLOCKED:  { icon: '🚫', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
-  INTENT_EXTRACTED:         { icon: '🧠', color: 'text-violet-400', bg: 'bg-violet-500/10 border-violet-500/20' },
-  CATALOG_SEARCHED:         { icon: '🔍', color: 'text-cyan-400', bg: 'bg-cyan-500/10 border-cyan-500/20' },
-  PRODUCTS_ANALYZED:        { icon: '📊', color: 'text-cyan-400', bg: 'bg-cyan-500/10 border-cyan-500/20' },
-  PRODUCT_SELECTED:         { icon: '✨', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
-  RECOMMENDATION_CREATED:   { icon: '🤖', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
-  PURCHASE_PROPOSAL_CREATED:{ icon: '📋', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20' },
-  POLICY_CHECK_PASSED:      { icon: '✅', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
-  POLICY_CHECK_FAILED:      { icon: '🚫', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
-  USER_APPROVAL_REQUESTED:  { icon: '👤', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
-  USER_APPROVED:            { icon: '✅', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
-  USER_REJECTED:            { icon: '❌', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
-  RAZORPAY_ORDER_CREATED:   { icon: '💳', color: 'text-brand-400', bg: 'bg-brand-500/10 border-brand-500/20' },
-  PAYMENT_PENDING:          { icon: '⏳', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
-  PAYMENT_VERIFIED:         { icon: '🎉', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
-  PAYMENT_FAILED:           { icon: '❌', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
-  ORDER_COMPLETED:          { icon: '🏆', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
-  ORDER_CANCELLED:          { icon: '🚫', color: 'text-slate-400', bg: 'bg-slate-500/10 border-slate-500/20' },
+  USER_REQUEST_RECEIVED:    { icon: '💬', color: 'text-brand-600', bg: 'bg-brand-50 border-brand-200' },
+  GUARDRAIL_INPUT_CHECK:    { icon: '🛡️', color: 'text-slate-600', bg: 'bg-slate-50 border-slate-200' },
+  GUARDRAIL_INPUT_BLOCKED:  { icon: '🚫', color: 'text-red-600', bg: 'bg-red-50 border-red-200' },
+  INTENT_EXTRACTED:         { icon: '🧠', color: 'text-violet-600', bg: 'bg-violet-50 border-violet-200' },
+  CATALOG_SEARCHED:         { icon: '🔍', color: 'text-cyan-600', bg: 'bg-cyan-50 border-cyan-200' },
+  PRODUCTS_ANALYZED:        { icon: '📊', color: 'text-cyan-600', bg: 'bg-cyan-50 border-cyan-200' },
+  PRODUCT_SELECTED:         { icon: '✨', color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200' },
+  RECOMMENDATION_CREATED:   { icon: '🤖', color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200' },
+  PURCHASE_PROPOSAL_CREATED:{ icon: '📋', color: 'text-blue-600', bg: 'bg-blue-50 border-blue-200' },
+  POLICY_CHECK_PASSED:      { icon: '✅', color: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-200' },
+  POLICY_CHECK_FAILED:      { icon: '🚫', color: 'text-red-600', bg: 'bg-red-50 border-red-200' },
+  USER_APPROVAL_REQUESTED:  { icon: '👤', color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200' },
+  USER_APPROVED:            { icon: '✅', color: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-200' },
+  USER_REJECTED:            { icon: '❌', color: 'text-red-600', bg: 'bg-red-50 border-red-200' },
+  RAZORPAY_ORDER_CREATED:   { icon: '💳', color: 'text-brand-600', bg: 'bg-brand-50 border-brand-200' },
+  PAYMENT_PENDING:          { icon: '⏳', color: 'text-amber-600', bg: 'bg-amber-50 border-amber-200' },
+  PAYMENT_VERIFIED:         { icon: '🎉', color: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-200' },
+  PAYMENT_FAILED:           { icon: '❌', color: 'text-red-600', bg: 'bg-red-50 border-red-200' },
+  ORDER_COMPLETED:          { icon: '🏆', color: 'text-emerald-600', bg: 'bg-emerald-50 border-emerald-200' },
+  ORDER_CANCELLED:          { icon: '🚫', color: 'text-slate-600', bg: 'bg-slate-50 border-slate-200' },
 }
 
 function formatTime(ts) {
@@ -56,18 +56,18 @@ export default function AuditTimeline({ events = [], loading, emptyMessage = 'No
   return (
     <div className="relative">
       {/* Timeline line */}
-      <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-500/50 via-slate-700 to-transparent" />
+      <div className="absolute left-5 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand-300 via-slate-300 to-transparent" />
 
       <div className="space-y-3 pl-12">
         {events.map((ev, i) => {
-          const cfg = EVENT_CONFIG[ev.action] || { icon: '⚡', color: 'text-slate-400', bg: 'bg-slate-500/10 border-slate-500/20' }
+          const cfg = EVENT_CONFIG[ev.action] || { icon: '⚡', color: 'text-slate-600', bg: 'bg-slate-50 border-slate-200' }
           const isSuccess = ev.status === 'SUCCESS'
           const isFailed = ev.status === 'FAILED' || ev.status === 'BLOCKED'
 
           return (
             <div key={ev._id || i} className={`relative glass-card p-4 border animate-fade-in ${cfg.bg}`}>
               {/* Timeline dot */}
-              <div className={`absolute -left-9 top-4 w-7 h-7 rounded-full flex items-center justify-center text-base border-2 bg-dark-900 ${
+              <div className={`absolute -left-9 top-4 w-7 h-7 rounded-full flex items-center justify-center text-base border-2 bg-white ${
                 isSuccess ? 'border-emerald-500' : isFailed ? 'border-red-500' : 'border-brand-500'
               }`}>
                 {cfg.icon}
@@ -81,14 +81,14 @@ export default function AuditTimeline({ events = [], loading, emptyMessage = 'No
                     </span>
                     <span className="text-xs text-slate-500">{ACTOR_LABELS[ev.actor] || ev.actor}</span>
                     <span className={`text-xs px-2 py-0.5 rounded-full border ${
-                      isSuccess ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                      isFailed ? 'bg-red-500/10 text-red-400 border-red-500/20' :
-                      'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                      isSuccess ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                      isFailed ? 'bg-red-50 text-red-700 border-red-200' :
+                      'bg-amber-50 text-amber-700 border-amber-200'
                     }`}>
                       {ev.status}
                     </span>
                   </div>
-                  <p className="text-sm text-slate-300 mt-1">{ev.reason}</p>
+                  <p className="text-sm text-slate-700 mt-1">{ev.reason}</p>
                 </div>
                 <span className="text-xs text-slate-500 font-mono flex-shrink-0">
                   {formatTime(ev.timestamp)}

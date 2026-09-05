@@ -19,13 +19,13 @@ function ChatMessage({ msg }) {
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} animate-slide-up`}>
       <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm ${
         isUser
-          ? 'bg-brand-600 text-white rounded-br-sm'
-          : 'glass-card text-slate-200 rounded-bl-sm'
+          ? 'bg-brand-600 text-white rounded-br-sm shadow'
+          : 'glass-card text-slate-700 rounded-bl-sm'
       }`}>
-        {!isUser && <span className="text-brand-400 font-semibold text-xs block mb-1">🤖 AgentCart AI</span>}
+        {!isUser && <span className="text-brand-600 font-semibold text-xs block mb-1">🤖 AgentCart AI</span>}
         <p className="leading-relaxed">{msg.content}</p>
         {msg.step && (
-          <span className="text-xs opacity-60 mt-1 block">Step: {msg.step}</span>
+          <span className="text-xs opacity-60 mt-1 block text-slate-500">Step: {msg.step}</span>
         )}
       </div>
     </div>
@@ -166,19 +166,19 @@ export default function AgentChat() {
     <div className="flex flex-col gap-6">
       {/* Chat area */}
       <div className="glass-card flex flex-col" style={{ height: '400px' }}>
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
           <div className="flex items-center gap-2">
             <span className="text-lg">🤖</span>
-            <span className="font-semibold text-white text-sm">AI Shopping Agent</span>
+            <span className="font-semibold text-slate-900 text-sm">AI Shopping Agent</span>
             <span className="badge-success">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Active
             </span>
           </div>
           {sessionId && (
             <button
               onClick={() => setShowAudit((p) => !p)}
-              className="text-xs text-brand-400 hover:text-brand-300 transition-colors"
+              className="text-xs text-brand-600 hover:text-brand-700 transition-colors font-medium"
             >
               {showAudit ? 'Hide' : 'Show'} Audit Trail ({auditEvents.length})
             </button>
@@ -192,7 +192,7 @@ export default function AgentChat() {
         </div>
 
         {/* Input */}
-        <div className="px-4 py-4 border-t border-white/10">
+        <div className="px-4 py-4 border-t border-slate-200">
           {/* Demo prompts */}
           {!agentResult && (
             <div className="flex gap-2 flex-wrap mb-3">
@@ -200,7 +200,7 @@ export default function AgentChat() {
                 <button
                   key={p}
                   onClick={() => handleSend(p)}
-                  className="text-xs bg-white/5 hover:bg-white/10 border border-white/10 text-slate-400 hover:text-white px-3 py-1.5 rounded-lg transition-colors"
+                  className="text-xs bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-lg transition-colors"
                 >
                   {p.length > 40 ? p.slice(0, 38) + '…' : p}
                 </button>
@@ -226,7 +226,7 @@ export default function AgentChat() {
       {/* Products found */}
       {agentResult?.products?.length > 0 && (
         <div className="animate-fade-in">
-          <h3 className="font-semibold text-white mb-3">
+          <h3 className="font-semibold text-slate-900 mb-3">
             Products Found ({agentResult.products.length})
           </h3>
           <ProductList
@@ -248,13 +248,13 @@ export default function AgentChat() {
 
           {/* Approval card */}
           {canApprove && (
-            <div className="glass-card p-6 border-amber-500/20 bg-amber-500/5 flex flex-col justify-between animate-slide-up">
+            <div className="glass-card p-6 border-amber-200 bg-amber-50 flex flex-col justify-between animate-slide-up">
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-xl">👤</span>
-                  <h3 className="font-bold text-amber-300">Human Approval Required</h3>
+                  <h3 className="font-bold text-amber-700">Human Approval Required</h3>
                 </div>
-                <p className="text-slate-300 text-sm mb-4">
+                <p className="text-slate-600 text-sm mb-4">
                   The AI has proposed a purchase. You must explicitly approve before any payment is created.
                 </p>
                 <div className="space-y-1.5 mb-6">
@@ -275,7 +275,7 @@ export default function AgentChat() {
       {/* Audit Trail */}
       {showAudit && auditEvents.length > 0 && (
         <div className="animate-fade-in">
-          <h3 className="font-semibold text-white mb-4">📋 Live Audit Trail ({auditEvents.length} events)</h3>
+          <h3 className="font-semibold text-slate-900 mb-4">📋 Live Audit Trail ({auditEvents.length} events)</h3>
           <AuditTimeline events={auditEvents} />
         </div>
       )}

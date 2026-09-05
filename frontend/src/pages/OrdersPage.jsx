@@ -37,18 +37,18 @@ export default function OrdersPage() {
           {orders.map((o) => (
             <div key={o._id} className="glass-card p-5 flex flex-wrap items-center gap-4 animate-fade-in hover:border-brand-500/30 transition-colors">
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-white truncate">{o.product_name}</p>
+                <p className="font-semibold text-slate-900 truncate">{o.product_name}</p>
                 <p className="text-xs text-slate-500 font-mono mt-0.5">{o._id}</p>
               </div>
               <div className="text-center">
-                <p className="text-xl font-bold text-white">₹{o.amount?.toLocaleString('en-IN')}</p>
+                <p className="text-xl font-bold text-slate-900">₹{o.amount?.toLocaleString('en-IN')}</p>
                 <p className="text-xs text-slate-500">×{o.quantity}</p>
               </div>
               <span className={STATUS_COLOR[o.status] || 'badge-info'}>{o.status?.replace(/_/g, ' ')}</span>
               <div className="text-right">
                 <p className="text-xs text-slate-500">{new Date(o.created_at).toLocaleDateString('en-IN')}</p>
                 {o.razorpay_payment_id && (
-                  <p className="text-xs text-emerald-400 font-mono">{o.razorpay_payment_id.slice(0, 12)}...</p>
+                  <p className="text-xs text-emerald-600 font-mono">{o.razorpay_payment_id.slice(0, 12)}...</p>
                 )}
               </div>
             </div>
